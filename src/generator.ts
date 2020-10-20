@@ -134,21 +134,22 @@ export class Generator {
       }
     }
 
-    if (filenamesFromFirstComponents.size) {
-      trace("Filenames from first components");
-      trace(Array.from(filenamesFromFirstComponents));
+    // FIXME:
+    // if (filenamesFromFirstComponents.size) {
+    //   trace("Filenames from first components");
+    //   trace(Array.from(filenamesFromFirstComponents));
 
-      for (const [filename, component] of allComponents) {
-        if (!filenamesFromFirstComponents.has(filename)) {
-          for (const components of layers.values()) {
-            components.delete(component);
-          }
+    //   for (const [filename, component] of allComponents) {
+    //     if (!filenamesFromFirstComponents.has(filename)) {
+    //       for (const components of layers.values()) {
+    //         components.delete(component);
+    //       }
 
-          ungroupedComponents.delete(filename);
-          allComponents.delete(filename);
-        }
-      }
-    }
+    //       ungroupedComponents.delete(filename);
+    //       allComponents.delete(filename);
+    //     }
+    //   }
+    // }
 
     if (ungroupedComponents.size) {
       trace("Ungrouped components leftovers");
@@ -216,23 +217,24 @@ export class Generator {
   }
 
   protected sortComponentsByName(components: Components): Components {
-    const sortedComponents: Components = new Map(
-      Array.from(components.entries()).sort((a, b) =>
-        a[1].name.localeCompare(b[1].name)
-      )
-    );
+    return new Map(components);
+    // const sortedComponents: Components = new Map(
+    //   Array.from(components.entries()).sort((a, b) =>
+    //     a[1].name.localeCompare(b[1].name)
+    //   )
+    // );
 
-    for (const component of components.values()) {
-      component.imports = component.imports
-        .filter(importedFilename => components.has(importedFilename))
-        .sort((a, b) => {
-          const componentA = components.get(a)!;
-          const componentB = components.get(b)!;
-          return componentA.name.localeCompare(componentB.name);
-        });
-    }
+    // for (const component of components.values()) {
+    //   component.imports = component.imports
+    //     .filter(importedFilename => components.has(importedFilename))
+    //     .sort((a, b) => {
+    //       const componentA = components.get(a)!;
+    //       const componentB = components.get(b)!;
+    //       return componentA.name.localeCompare(componentB.name);
+    //     });
+    // }
 
-    return sortedComponents;
+    // return sortedComponents;
   }
 
   protected findComponentSchema(
