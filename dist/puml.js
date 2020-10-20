@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PUML = void 0;
 const schema_1 = require("./schema");
 const types_1 = require("./types");
 const utils_1 = require("./utils");
@@ -53,7 +54,7 @@ skinparam component {
             puml.push(`package "${layer}" {`);
         for (const component of components) {
             const componentPuml = [
-                this.generatePlantUMLComponent(component, types_1.Context.LAYER)
+                this.generatePlantUMLComponent(component, types_1.Context.LAYER),
             ];
             if (isLayer)
                 componentPuml.unshift("  ");
@@ -98,7 +99,18 @@ skinparam component {
         const puml = [""];
         for (const component of components) {
             for (const importedFilename of component.imports) {
-                const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename);
+                const importedComponent = components.find((importedComponent) => {
+                    const result = importedComponent.filename === importedFilename;
+                    // for windows platform use -- begin
+                    if (!result && importedComponent.filename.endsWith("**")) {
+                        const regex = new RegExp(/.+(\/|\\\\|\\)node_modules(\/|\\\\|\\)(\w|\-|_)+(\/|\\\\|\\)/);
+                        const match = importedFilename.match(regex);
+                        if (match)
+                            return importedComponent.filename === `${match[0]}\**`;
+                    }
+                    // for windows platform use -- end
+                    return result;
+                });
                 if (importedComponent) {
                     puml.push(this.generatePlantUMLRelationship(component, importedComponent));
                 }
@@ -114,7 +126,7 @@ skinparam component {
         const puml = [
             this.generatePlantUMLComponent(component, types_1.Context.RELATIONSHIP),
             connection,
-            this.generatePlantUMLComponent(importedComponent, types_1.Context.RELATIONSHIP)
+            this.generatePlantUMLComponent(importedComponent, types_1.Context.RELATIONSHIP),
         ];
         return puml.join(" ");
     }

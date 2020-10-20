@@ -36,7 +36,7 @@ export class PUML {
 
     for (const component of components) {
       const componentPuml = [
-        this.generatePlantUMLComponent(component, Context.LAYER)
+        this.generatePlantUMLComponent(component, Context.LAYER),
       ];
 
       if (isLayer) componentPuml.unshift("  ");
@@ -86,9 +86,19 @@ export class PUML {
 
     for (const component of components) {
       for (const importedFilename of component.imports) {
-        const importedComponent = components.find(
-          importedComponent => importedComponent.filename === importedFilename
-        );
+        const importedComponent = components.find((importedComponent) => {
+          const result = importedComponent.filename === importedFilename;
+          // for windows platform use -- begin
+          if (!result && importedComponent.filename.endsWith("**")) {
+            const regex = new RegExp(
+              /.+(\/|\\\\|\\)node_modules(\/|\\\\|\\)(\w|\-|_)+(\/|\\\\|\\)/
+            );
+            const match = importedFilename.match(regex);
+            if (match) return importedComponent.filename === `${match[0]}\**`;
+          }
+          // for windows platform use -- end
+          return result;
+        });
 
         if (importedComponent) {
           puml.push(
@@ -116,7 +126,7 @@ export class PUML {
     const puml = [
       this.generatePlantUMLComponent(component, Context.RELATIONSHIP),
       connection,
-      this.generatePlantUMLComponent(importedComponent, Context.RELATIONSHIP)
+      this.generatePlantUMLComponent(importedComponent, Context.RELATIONSHIP),
     ];
 
     return puml.join(" ");

@@ -5,7 +5,7 @@
   "main": "./dist/arkit.js",
   "types": "./dist/arkit.d.ts",
   "scripts": {
-    "architecture": "./index.js",
+    "architecture": "node ./index.js",
     "prettier": "prettier --write \"{src,test}/*.ts\"",
     "compile": "tsc --project .",
     "build-schema": "typescript-json-schema src/schema.ts ConfigSchema --required true --id 'https://arkit.pro/schema.json' -o schema.json",
