@@ -11,6 +11,11 @@
   <a href="https://codeclimate.com/github/dyatko/arkit/issues"><img src="https://img.shields.io/codeclimate/tech-debt/dyatko/arkit.svg?style=flat-square" alt="Technical debt" /></a>
 </p>
 
+# Changes
+Arkit is a very good project but its work fine on linux platform only. Some function not work on windows platform like dependency group so I fix it in this project. I never test it on linux platform so please use orignal arkit for your linux platform. If you want to use it on windows you can try this.
+
+Arkit是一個非常棒的專案但是它某些功能僅能在Linux平台上運作正常，例如 node_modules 裡面的相依模組的偵測並很好的被繪製出來。在此專案中我試圖的去修復了這個問題但是我沒有在Linux平台上同時測試過。我僅針對windows平台做修改，但我想它應該依然能夠在Linux上運作正常。如果你使用的是Linux我建議你仍然是使用原來的Arkit專案，除此之外如果你想和我一樣在windows上正常使用它的話可以試著用用看。
+
 # Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
 
 - Associates source files with configured architectural components
